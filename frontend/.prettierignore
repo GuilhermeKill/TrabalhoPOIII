@@ -1,0 +1,6 @@
+node_modules
+dist
+assets
+vite.config.js
+router.ts
+**/src/theme

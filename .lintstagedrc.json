@@ -1,0 +1,4 @@
+{
+  "./frontend/*.{js,jsx}": ["eslint --fix", "prettier --write"],
+  "./frontend/*.{json,css,md}": ["prettier --write"]
+}

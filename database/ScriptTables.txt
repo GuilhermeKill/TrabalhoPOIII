@@ -1,0 +1,419 @@
+
+USE teste --Nome do banco dados
+GO
+/****** Object:  Table [dbo].[Alergia]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+--Tabelas 
+
+
+CREATE TABLE [dbo].[Alergia](
+	[IdAlergia] [bigint] NOT NULL,
+	[IdResidente] [bigint] NOT NULL,
+	[NomeAlergia] [nvarchar](200) NOT NULL,
+	[Observacao] [nvarchar](500) NOT NULL,
+ CONSTRAINT [PK_Alergia] PRIMARY KEY CLUSTERED 
+(
+	[IdAlergia] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Atendimento]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Atendimento](
+	[IdAtendimento] [bigint] IDENTITY(1,1) NOT NULL,
+	[DataAtendimento] [datetime] NOT NULL,
+	[IdTipoAtendimento] [bigint] NOT NULL,
+	[IdProfissionalResponsavel] [bigint] NOT NULL,
+	[DescricaoAtendimento] [nvarchar](max) NOT NULL,
+	[IdObservacao] [bigint] NOT NULL,
+ CONSTRAINT [PK_Atendimento] PRIMARY KEY CLUSTERED 
+(
+	[IdAtendimento] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Cardapio]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Cardapio](
+	[IdCardapio] [bigint] IDENTITY(1,1) NOT NULL,
+	[IdTipoRefeicao] [bigint] NOT NULL,
+	[QtdCaloricaTotal] [decimal](18, 1) NULL,
+	[PrecoFinal] [decimal](18, 2) NULL,
+	[Nome] [nvarchar](150) NOT NULL,
+ CONSTRAINT [PK_Cardapio] PRIMARY KEY CLUSTERED 
+(
+	[IdCardapio] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[CardapioIngrediente]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CardapioIngrediente](
+	[IdCardapioIngrediente] [bigint] IDENTITY(1,1) NOT NULL,
+	[IdCardapio] [bigint] NOT NULL,
+	[IdIngrediente] [bigint] NOT NULL,
+ CONSTRAINT [PK_CardapioIngrediente] PRIMARY KEY CLUSTERED 
+(
+	[IdCardapioIngrediente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Consulta]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Consulta](
+	[IdConsulta] [bigint] IDENTITY(1,1) NOT NULL,
+	[IdMedico] [bigint] NOT NULL,
+	[IdResidente] [bigint] NOT NULL,
+	[DataConsulta] [datetime] NOT NULL,
+	[TipoConsulta] [nvarchar](max) NOT NULL,
+	[Observacao] [nvarchar](max) NOT NULL,
+	[Compareceu] [bit] NOT NULL,
+ CONSTRAINT [PK_Consulta] PRIMARY KEY CLUSTERED 
+(
+	[IdConsulta] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Funcao]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Funcao](
+	[IdFuncao] [bigint] IDENTITY(1,1) NOT NULL,
+	[NomeFuncao] [nvarchar](200) NOT NULL,
+ CONSTRAINT [PK_Funcao] PRIMARY KEY CLUSTERED 
+(
+	[IdFuncao] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[HistoricoMedicamento]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[HistoricoMedicamento](
+	[IdHistoricoMedicamento] [bigint] IDENTITY(1,1) NOT NULL,
+	[IdResidente] [bigint] NOT NULL,
+	[NomeMedicamento] [nvarchar](100) NOT NULL,
+	[Dosagem] [nvarchar](100) NOT NULL,
+ CONSTRAINT [PK_HistoricoMedicamento] PRIMARY KEY CLUSTERED 
+(
+	[IdHistoricoMedicamento] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[HistoricoMedico]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[HistoricoMedico](
+	[IdHistoricoMedico] [bigint] IDENTITY(1,1) NOT NULL,
+	[IdResidente] [bigint] NOT NULL,
+	[Descricao] [nvarchar](max) NOT NULL,
+	[Diagnostico] [nvarchar](max) NOT NULL,
+	[FormaTratamento] [nvarchar](max) NULL,
+ CONSTRAINT [PK_HistoricoMedico] PRIMARY KEY CLUSTERED 
+(
+	[IdHistoricoMedico] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Ingredientes]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Ingredientes](
+	[IdIngredientes] [bigint] IDENTITY(1,1) NOT NULL,
+	[Nome] [nvarchar](150) NOT NULL,
+	[QtdCaloricaPorcao] [decimal](18, 1) NULL,
+	[PrecoPorcao] [decimal](18, 2) NULL,
+ CONSTRAINT [PK_Ingredientes] PRIMARY KEY CLUSTERED 
+(
+	[IdIngredientes] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MedicacaoPaciente]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MedicacaoPaciente](
+	[IdMedicacaoPaciente] [bigint] IDENTITY(1,1) NOT NULL,
+	[IdResidente] [bigint] NOT NULL,
+	[IdMedicamento] [bigint] NOT NULL,
+	[IdViaAdministracao] [bigint] NOT NULL,
+	[DataMedicamento] [datetime] NOT NULL,
+	[Observacao] [nvarchar](max) NULL,
+ CONSTRAINT [PK_MedicacaoPaciente] PRIMARY KEY CLUSTERED 
+(
+	[IdMedicacaoPaciente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Medicamento]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Medicamento](
+	[IdMedicamento] [bigint] IDENTITY(1,1) NOT NULL,
+	[NomeMedicamento] [nvarchar](500) NOT NULL,
+	[Dosagem] [nvarchar](100) NOT NULL,
+	[Preco] [decimal](18, 2) NULL,
+ CONSTRAINT [PK_Medicamento] PRIMARY KEY CLUSTERED 
+(
+	[IdMedicamento] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Medico]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Medico](
+	[IdMedico] [bigint] IDENTITY(1,1) NOT NULL,
+	[NomeMedico] [nvarchar](200) NOT NULL,
+	[SobrenomeMedico] [nvarchar](200) NOT NULL,
+	[DataNascimento] [datetime] NOT NULL,
+	[CRM] [nvarchar](20) NOT NULL,
+ CONSTRAINT [PK_Medico] PRIMARY KEY CLUSTERED 
+(
+	[IdMedico] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[NivelAcesso]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[NivelAcesso](
+	[IdNivelAcesso] [bigint] IDENTITY(1,1) NOT NULL,
+	[Nome] [nvarchar](200) NOT NULL,
+ CONSTRAINT [PK_NivelAcesso] PRIMARY KEY CLUSTERED 
+(
+	[IdNivelAcesso] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Observacao]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Observacao](
+	[IdObservacao] [bigint] IDENTITY(1,1) NOT NULL,
+	[DataObservacao] [datetime] NOT NULL,
+	[ConteudoObs] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_Observacao] PRIMARY KEY CLUSTERED 
+(
+	[IdObservacao] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Profissional]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Profissional](
+	[IdProfissional] [bigint] IDENTITY(1,1) NOT NULL,
+	[NomeProfissional] [nvarchar](max) NOT NULL,
+	[CPF] [nvarchar](11) NOT NULL,
+	[Email] [nvarchar](max) NOT NULL,
+	[senha] [nvarchar](max) NOT NULL,
+	[IdFuncao] [bigint] NOT NULL,
+	[IdNivelAcesso] [bigint] NOT NULL,
+ CONSTRAINT [PK_Profissional] PRIMARY KEY CLUSTERED 
+(
+	[IdProfissional] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Refeicao]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Refeicao](
+	[IdRefeicao] [bigint] IDENTITY(1,1) NOT NULL,
+	[IdResidente] [bigint] NOT NULL,
+	[IdCardapio] [bigint] NOT NULL,
+	[DataRefeicao] [datetime] NOT NULL,
+	[observacao] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_Refeicao] PRIMARY KEY CLUSTERED 
+(
+	[IdRefeicao] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Residente]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Residente](
+	[IdResidente] [bigint] IDENTITY(1,1) NOT NULL,
+	[NomeResidente] [nvarchar](250) NOT NULL,
+	[SobrenomeResidente] [nvarchar](250) NOT NULL,
+	[DataNascimento] [datetime] NOT NULL,
+	[DocumentoIdentificacao] [nchar](11) NOT NULL,
+ CONSTRAINT [PK_Residente] PRIMARY KEY CLUSTERED 
+(
+	[IdResidente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TipoRefeicao]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TipoRefeicao](
+	[IdTipoRefeicao] [bigint] IDENTITY(1,1) NOT NULL,
+	[Nome] [nvarchar](150) NOT NULL,
+ CONSTRAINT [PK_TipoRefeicao] PRIMARY KEY CLUSTERED 
+(
+	[IdTipoRefeicao] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ViaAdministracao]    Script Date: 24/04/2024 10:46:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ViaAdministracao](
+	[IdViaAdministracao] [bigint] IDENTITY(1,1) NOT NULL,
+	[NomeViaAdministracao] [nvarchar](200) NOT NULL,
+ CONSTRAINT [PK_ViaAdministracao] PRIMARY KEY CLUSTERED 
+(
+	[IdViaAdministracao] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+--Relações
+
+ALTER TABLE [dbo].[Alergia]  WITH CHECK ADD  CONSTRAINT [FK_Alergia_Residente] FOREIGN KEY([IdResidente])
+REFERENCES [dbo].[Residente] ([IdResidente])
+GO
+ALTER TABLE [dbo].[Alergia] CHECK CONSTRAINT [FK_Alergia_Residente]
+GO
+ALTER TABLE [dbo].[Atendimento]  WITH CHECK ADD  CONSTRAINT [FK_Atendimento_Profissional] FOREIGN KEY([IdProfissionalResponsavel])
+REFERENCES [dbo].[Profissional] ([IdProfissional])
+GO
+ALTER TABLE [dbo].[Atendimento] CHECK CONSTRAINT [FK_Atendimento_Profissional]
+GO
+ALTER TABLE [dbo].[Cardapio]  WITH CHECK ADD  CONSTRAINT [FK_Cardapio_TipoRefeicao] FOREIGN KEY([IdTipoRefeicao])
+REFERENCES [dbo].[TipoRefeicao] ([IdTipoRefeicao])
+GO
+ALTER TABLE [dbo].[Cardapio] CHECK CONSTRAINT [FK_Cardapio_TipoRefeicao]
+GO
+ALTER TABLE [dbo].[CardapioIngrediente]  WITH CHECK ADD  CONSTRAINT [FK_CardapioIngrediente_Cardapio] FOREIGN KEY([IdCardapio])
+REFERENCES [dbo].[Cardapio] ([IdCardapio])
+GO
+ALTER TABLE [dbo].[CardapioIngrediente] CHECK CONSTRAINT [FK_CardapioIngrediente_Cardapio]
+GO
+ALTER TABLE [dbo].[CardapioIngrediente]  WITH CHECK ADD  CONSTRAINT [FK_CardapioIngrediente_Ingredientes] FOREIGN KEY([IdIngrediente])
+REFERENCES [dbo].[Ingredientes] ([IdIngredientes])
+GO
+ALTER TABLE [dbo].[CardapioIngrediente] CHECK CONSTRAINT [FK_CardapioIngrediente_Ingredientes]
+GO
+ALTER TABLE [dbo].[Consulta]  WITH CHECK ADD  CONSTRAINT [FK_Consulta_Medico] FOREIGN KEY([IdMedico])
+REFERENCES [dbo].[Medico] ([IdMedico])
+GO
+ALTER TABLE [dbo].[Consulta] CHECK CONSTRAINT [FK_Consulta_Medico]
+GO
+ALTER TABLE [dbo].[Consulta]  WITH CHECK ADD  CONSTRAINT [FK_Consulta_Residente] FOREIGN KEY([IdResidente])
+REFERENCES [dbo].[Residente] ([IdResidente])
+GO
+ALTER TABLE [dbo].[Consulta] CHECK CONSTRAINT [FK_Consulta_Residente]
+GO
+ALTER TABLE [dbo].[HistoricoMedicamento]  WITH CHECK ADD  CONSTRAINT [FK_HistoricoMedicamento_HistoricoMedicamento] FOREIGN KEY([IdResidente])
+REFERENCES [dbo].[Residente] ([IdResidente])
+GO
+ALTER TABLE [dbo].[HistoricoMedicamento] CHECK CONSTRAINT [FK_HistoricoMedicamento_HistoricoMedicamento]
+GO
+ALTER TABLE [dbo].[HistoricoMedico]  WITH CHECK ADD  CONSTRAINT [FK_HistoricoMedico_Residente] FOREIGN KEY([IdResidente])
+REFERENCES [dbo].[Residente] ([IdResidente])
+GO
+ALTER TABLE [dbo].[HistoricoMedico] CHECK CONSTRAINT [FK_HistoricoMedico_Residente]
+GO
+ALTER TABLE [dbo].[MedicacaoPaciente]  WITH CHECK ADD  CONSTRAINT [FK_MedicacaoPaciente_Medicamento] FOREIGN KEY([IdMedicamento])
+REFERENCES [dbo].[Medicamento] ([IdMedicamento])
+GO
+ALTER TABLE [dbo].[MedicacaoPaciente] CHECK CONSTRAINT [FK_MedicacaoPaciente_Medicamento]
+GO
+ALTER TABLE [dbo].[MedicacaoPaciente]  WITH CHECK ADD  CONSTRAINT [FK_MedicacaoPaciente_Residente] FOREIGN KEY([IdResidente])
+REFERENCES [dbo].[Residente] ([IdResidente])
+GO
+ALTER TABLE [dbo].[MedicacaoPaciente] CHECK CONSTRAINT [FK_MedicacaoPaciente_Residente]
+GO
+ALTER TABLE [dbo].[MedicacaoPaciente]  WITH CHECK ADD  CONSTRAINT [FK_MedicacaoPaciente_ViaAdministracao] FOREIGN KEY([IdViaAdministracao])
+REFERENCES [dbo].[ViaAdministracao] ([IdViaAdministracao])
+GO
+ALTER TABLE [dbo].[MedicacaoPaciente] CHECK CONSTRAINT [FK_MedicacaoPaciente_ViaAdministracao]
+GO
+ALTER TABLE [dbo].[Profissional]  WITH CHECK ADD  CONSTRAINT [FK_Profissional_Funcao] FOREIGN KEY([IdFuncao])
+REFERENCES [dbo].[Funcao] ([IdFuncao])
+GO
+ALTER TABLE [dbo].[Profissional] CHECK CONSTRAINT [FK_Profissional_Funcao]
+GO
+ALTER TABLE [dbo].[Profissional]  WITH CHECK ADD  CONSTRAINT [FK_Profissional_NivelAcesso] FOREIGN KEY([IdNivelAcesso])
+REFERENCES [dbo].[NivelAcesso] ([IdNivelAcesso])
+GO
+ALTER TABLE [dbo].[Profissional] CHECK CONSTRAINT [FK_Profissional_NivelAcesso]
+GO
+ALTER TABLE [dbo].[Refeicao]  WITH CHECK ADD  CONSTRAINT [FK_Refeicao_Cardapio] FOREIGN KEY([IdCardapio])
+REFERENCES [dbo].[Cardapio] ([IdCardapio])
+GO
+ALTER TABLE [dbo].[Refeicao] CHECK CONSTRAINT [FK_Refeicao_Cardapio]
+GO
+ALTER TABLE [dbo].[Refeicao]  WITH CHECK ADD  CONSTRAINT [FK_Refeicao_Residente] FOREIGN KEY([IdResidente])
+REFERENCES [dbo].[Residente] ([IdResidente])
+GO
+ALTER TABLE [dbo].[Refeicao] CHECK CONSTRAINT [FK_Refeicao_Residente]
+GO
+
+--Indices
+
+CREATE INDEX IX_Alergia_IdResidente ON [dbo].[Alergia]([IdResidente]);
+CREATE INDEX IX_Atendimento_IdProfissionalResponsavel ON [dbo].[Atendimento]([IdProfissionalResponsavel]);
+CREATE INDEX IX_Cardapio_IdTipoRefeicao ON [dbo].[Cardapio]([IdTipoRefeicao]);
+CREATE INDEX IX_CardapioIngrediente_IdCardapio ON [dbo].[CardapioIngrediente]([IdCardapio]);
+CREATE INDEX IX_Consulta_IdMedico ON [dbo].[Consulta]([IdMedico]);
+CREATE INDEX IX_Consulta_IdResidente ON [dbo].[Consulta]([IdResidente]);
+CREATE INDEX IX_HistoricoMedicamento_IdResidente ON [dbo].[HistoricoMedicamento]([IdResidente]);
+CREATE INDEX IX_HistoricoMedico_IdResidente ON [dbo].[HistoricoMedico]([IdResidente]);
+CREATE INDEX IX_MedicacaoPaciente_IdResidente ON [dbo].[MedicacaoPaciente]([IdResidente]);
+CREATE INDEX IX_MedicacaoPaciente_IdMedicamento ON [dbo].[MedicacaoPaciente]([IdMedicamento]);
+CREATE INDEX IX_MedicacaoPaciente_IdViaAdministracao ON [dbo].[MedicacaoPaciente]([IdViaAdministracao]);
+CREATE INDEX IX_Profissional_IdFuncao ON [dbo].[Profissional]([IdFuncao]);
+CREATE INDEX IX_Profissional_IdNivelAcesso ON [dbo].[Profissional]([IdNivelAcesso]);
+CREATE INDEX IX_Refeicao_IdCardapio ON [dbo].[Refeicao]([IdCardapio]);
+CREATE INDEX IX_Refeicao_IdResidente ON [dbo].[Refeicao]([IdResidente]);
+

@@ -1,0 +1,2485 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Cuidado ao Residente  API",
+    "description": "Cuidado ao Residente é uma API para cadastro e gerenciamento de dados dos residentes e suas consultas médicas. <br> Ela permite registrar informações detalhadas, como histórico médico, alergias e medicamentos, oferecendo um acompanhamento personalizado e eficaz.<br>A API também possibilita o cadastro de consultas, registrando data, horário, tipo e observações, garantindo um histórico completo de atendimento.<br> Além disso, inclui alertas de horário de medicação e dia de consulta, ajudando a manter a adesão ao tratamento e a pontualidade nas consultas. ",
+    "contact": {
+      "name": "API Support",
+      "url": "https://github.com/howardroatti",
+      "email": "https://github.com/howardroatti"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3005"
+    }
+  ],
+  "paths": {
+    "/residentes": {
+      "get": {
+        "tags": [
+          "Residente"
+        ],
+        "summary": "Obter lista de residentes",
+        "description": "Recupera uma lista de todos os residentes",
+        "responses": {
+          "200": {
+            "description": "Uma lista de residentes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Residente"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/residente/{id}": {
+      "get": {
+        "tags": [
+          "Residente"
+        ],
+        "summary": "Obter residentes por ID",
+        "description": "Recupera um residente por ID ",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Uma lista de residentes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Residente"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Residente"
+        ],
+        "summary": "Atualizar residente por ID",
+        "description": "Atualiza um residente com o ID fornecido",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Residente criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Residente"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResidenteCreate"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Residente"
+        ],
+        "summary": "Excluir residente por ID",
+        "description": "Exclui um residente com o ID fornecido.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/residentenome/nome": {
+      "get": {
+        "tags": [
+          "Residente"
+        ],
+        "summary": "Obter residentes por nome",
+        "description": "Recupera residentes cujo nome contém os caracteres fornecidos",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/residente": {
+      "post": {
+        "tags": [
+          "Residente"
+        ],
+        "summary": "Criar um novo residente",
+        "description": "Cria um novo residente com os dados fornecidos",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Residente criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Residente"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResidenteCreate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Login do Profissional ",
+        "description": "Profissional loga com (Login e senha ).",
+        "responses": {
+          "200": {
+            "description": "Profissional Logado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Autenticacao"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AutenticacaoLogin"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Logout do Sistema ",
+        "description": "Profissional sai do Sistema ).",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/consultas": {
+      "get": {
+        "tags": [
+          "Consulta"
+        ],
+        "summary": "Obter todas as consultas",
+        "description": "Recupera uma lista de todas as consultas",
+        "responses": {
+          "200": {
+            "description": "Uma lista de consultas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Consulta"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/consulta/{id}": {
+      "get": {
+        "tags": [
+          "Consulta"
+        ],
+        "summary": "Obter consulta por ID",
+        "description": "Recupera uma consulta por ID ",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Uma consulta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Consulta"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Consulta"
+        ],
+        "summary": "Atualizar consulta por ID",
+        "description": "Atualiza uma consulta com o ID fornecido",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Consulta criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Consulta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsultaCreate"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Consulta"
+        ],
+        "summary": "Excluir consulta por ID",
+        "description": "Exclui uma consulta com o ID fornecido.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/consulta": {
+      "post": {
+        "tags": [
+          "Consulta"
+        ],
+        "summary": "Criar uma nova consulta",
+        "description": "Cria uma nova consulta com os dados fornecidos",
+        "responses": {
+          "201": {
+            "description": "Consulta criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Consulta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsultaCreate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profissionais": {
+      "get": {
+        "tags": [
+          "Profissional"
+        ],
+        "summary": "Obter todos os profissionais",
+        "description": "Recupera uma lista de todos os profissionais",
+        "responses": {
+          "200": {
+            "description": "Uma lista de residentes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Profissional"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/profissional/{id}": {
+      "get": {
+        "tags": [
+          "Profissional"
+        ],
+        "summary": "Obter profissional por ID",
+        "description": "Recupera um profissional por ID ",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna Um Proffisional",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Profissional"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Profissional"
+        ],
+        "summary": "Atualizar profissional por ID",
+        "description": "Atualiza um profissional com o ID fornecido",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Profissional criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profissional"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfissionalCreate"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Profissional"
+        ],
+        "summary": "Excluir profissional por ID",
+        "description": "Exclui um profissional com o ID fornecido.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/profissional": {
+      "post": {
+        "tags": [
+          "Profissional"
+        ],
+        "summary": " Criar um novo profissional",
+        "description": "Cria um novo profissional com os dados fornecidos",
+        "responses": {
+          "201": {
+            "description": "Profissional criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profissional"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfissionalCreate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profissionalnome/nome": {
+      "get": {
+        "tags": [
+          "Profissional"
+        ],
+        "summary": "Obter Profissional por nome",
+        "description": "Recupera residentes cujo nome contém os caracteres fornecidos",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna Um Proffisional",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Profissional"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/medicamentos": {
+      "get": {
+        "tags": [
+          "Medicamento"
+        ],
+        "summary": "Obter todos os medicamentos",
+        "description": "Recupera uma lista de todos os medicamentos",
+        "responses": {
+          "200": {
+            "description": "Recupera Medicamento ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Profissional"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/medicamento/{id}": {
+      "get": {
+        "tags": [
+          "Medicamento"
+        ],
+        "summary": "Obter medicamento por ID",
+        "description": "Recupera um medicamento por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recupera Medicamento ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Profissional"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Medicamento"
+        ],
+        "summary": "Atualizar medicamento por ID",
+        "description": "Atualiza um medicamento com o ID fornecido",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Residente criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Medicamento"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicamentoCreate"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Medicamento"
+        ],
+        "summary": "Excluir medicamento por ID",
+        "description": "Exclui um medicamento com o ID fornecido.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/medicamneto/nome": {
+      "get": {
+        "tags": [
+          "Medicamento"
+        ],
+        "summary": "Obter residentes por nome",
+        "description": "Recupera Medicamento cujo nome contém os caracteres fornecidos",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recupera Medicamento ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Profissional"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/medicamento": {
+      "post": {
+        "tags": [
+          "Medicamento"
+        ],
+        "summary": "Criar um novo medicamento",
+        "description": "Cria um novo medicamento com os dados fornecidos",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Residente criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Medicamento"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicamentoCreate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/medicacaoPacientes": {
+      "get": {
+        "tags": [
+          "Medicacao Paciente"
+        ],
+        "summary": "Obter todas as medicações de pacientes",
+        "description": "Recupera uma lista de todas as medicações de pacientes",
+        "responses": {
+          "200": {
+            "description": "Um lista Medicação Paciente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MedicacaoPaciente"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/medicacaoPaciente/{id}": {
+      "get": {
+        "tags": [
+          "Medicacao Paciente"
+        ],
+        "summary": "Obter medicação de paciente por ID",
+        "description": "Recupera uma medicação de paciente por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Um Medicação Paciente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MedicacaoPaciente"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Medicacao Paciente"
+        ],
+        "summary": "Atualizar medicação de paciente por ID",
+        "description": "Atualiza uma medicação de paciente com o ID fornecido",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Medicacao Paciente criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedicacaoPaciente"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicacaoPacienteCreate"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Medicacao Paciente"
+        ],
+        "summary": "Excluir medicação de paciente por ID",
+        "description": "Exclui uma medicação de paciente com o ID fornecido.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/medicacaoPaciente": {
+      "post": {
+        "tags": [
+          "Medicacao Paciente"
+        ],
+        "summary": "Criar uma nova medicação de paciente",
+        "description": "Cria uma nova medicação de paciente com os dados fornecidos",
+        "responses": {
+          "201": {
+            "description": "Medicacao Paciente criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedicacaoPaciente"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicacaoPacienteCreate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alertasconsultas": {
+      "get": {
+        "tags": [
+          "AlertasConsultas"
+        ],
+        "summary": "Visualizar Alertas para hora de tomar medicamento",
+        "description": "Visualizar alerta avisando quando um residete não toma remedio.",
+        "responses": {
+          "200": {
+            "description": "Visualizar alerta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlertasConsultas"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/visualizaralertasconsultas": {
+      "get": {
+        "tags": [
+          "AlertasConsultas"
+        ],
+        "summary": "Visualizar Alertas para hora de tomar medicamento",
+        "description": "Visualizar alerta avisando quando um residete não toma remedio.",
+        "responses": {
+          "200": {
+            "description": "Visualizar alerta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlertasConsultas"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/compareceuconsulta/{id}": {
+      "put": {
+        "tags": [
+          "AlertasConsultas"
+        ],
+        "summary": "Atualizar hora da medicação de paciente por ID",
+        "description": "Atualiza a hora da medicação de paciente com o ID fornecido para a hora atual do sistema",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/alertas": {
+      "get": {
+        "tags": [
+          "AlertasMedicamentos"
+        ],
+        "summary": "Alertas para hora de tomar medicamento",
+        "description": "Dispara um alerta avisando quando um residete não toma remedio.",
+        "responses": {
+          "200": {
+            "description": "Visualizar alerta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlertaMedicamento"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/visualizarAlertas": {
+      "get": {
+        "tags": [
+          "AlertasMedicamentos"
+        ],
+        "summary": "Visualizar Alertas para hora de tomar medicamento",
+        "description": "Visualizar alerta avisando quando um residete não toma remedio.",
+        "responses": {
+          "200": {
+            "description": "Visualizar alerta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlertaMedicamento"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/tomarmedicamento/{id}": {
+      "put": {
+        "tags": [
+          "AlertasMedicamentos"
+        ],
+        "summary": "Atualizar hora da medicação de paciente por ID",
+        "description": "Atualiza a hora da medicação de paciente com o ID fornecido para a hora atual do sistema",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Residente": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "object"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "idResidente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "nomeCompleto": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "João da Silva"
+                  }
+                }
+              },
+              "dataNascimento": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "1980-01-01"
+                  }
+                }
+              },
+              "documentoIdentificacao": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "123456789"
+                  }
+                }
+              },
+              "medicacaoPaciente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "array"
+                  },
+                  "items": {
+                    "type": "object",
+                    "properties": {}
+                  }
+                }
+              },
+              "consultas": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "array"
+                  },
+                  "items": {
+                    "type": "object",
+                    "properties": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "ResidenteCreate": {
+        "type": "object",
+        "properties": {
+          "nomeCompleto": {
+            "type": "string",
+            "example": "João da Silva"
+          },
+          "dataNascimento": {
+            "type": "string",
+            "example": "1980-01-01"
+          },
+          "documentoIdentificacao": {
+            "type": "string",
+            "example": "123456789"
+          }
+        }
+      },
+      "MedicacaoPaciente": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "object"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "idMedicacaoPaciente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "idResidente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "idMedicamento": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "idProfissional": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "quantidadeTempoHoras": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 8
+                  }
+                }
+              },
+              "quantidadeTempoDias": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 30
+                  }
+                }
+              },
+              "viaAdministracao": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "oral"
+                  }
+                }
+              },
+              "dataHoraInicioMedicamento": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "format": {
+                    "type": "string",
+                    "example": "date-time"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "2024-05-18T12:34:56Z"
+                  }
+                }
+              },
+              "dataMedicamentoInicio": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "format": {
+                    "type": "string",
+                    "example": "date-time"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "2024-05-18T12:34:56Z"
+                  }
+                }
+              },
+              "observacao": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Tomar após as refeições"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "MedicacaoPacienteCreate": {
+        "type": "object",
+        "properties": {
+          "idMedicamento": {
+            "type": "number",
+            "example": 1
+          },
+          "idProfissional": {
+            "type": "number",
+            "example": 1
+          },
+          "idResidente": {
+            "type": "number",
+            "example": 1
+          },
+          "quantidadeTempoHoras": {
+            "type": "number",
+            "example": 8
+          },
+          "quantidadeTempoDias": {
+            "type": "number",
+            "example": 30
+          },
+          "viaAdministracao": {
+            "type": "string",
+            "example": "oral"
+          },
+          "dataHoraInicioMedicamento": {
+            "type": "string",
+            "example": "2024-05-18T12:34:56Z"
+          },
+          "observacao": {
+            "type": "string",
+            "example": "Tomar após as refeições"
+          }
+        }
+      },
+      "Consulta": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "object"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "idConsulta": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "dataConsulta": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "format": {
+                    "type": "string",
+                    "example": "date-time"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "2024-05-18T12:34:56Z"
+                  }
+                }
+              },
+              "tipoConsulta": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Rotina"
+                  }
+                }
+              },
+              "nomeMedico": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Dr. José"
+                  }
+                }
+              },
+              "compareceu": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Sim"
+                  }
+                }
+              },
+              "observacao": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Paciente em boa condição"
+                  }
+                }
+              },
+              "residenteId": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "profissionalId": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "ConsultaCreate": {
+        "type": "object",
+        "properties": {
+          "dataConsulta": {
+            "type": "string",
+            "example": "2024-05-18T12:34:56Z"
+          },
+          "tipoConsulta": {
+            "type": "string",
+            "example": "Rotina"
+          },
+          "nomeMedico": {
+            "type": "string",
+            "example": "Dr. José"
+          },
+          "compareceu": {
+            "type": "string",
+            "example": "Sim"
+          },
+          "observacao": {
+            "type": "string",
+            "example": "Paciente em boa condição"
+          },
+          "residenteId": {
+            "type": "number",
+            "example": 1
+          },
+          "profissionalId": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "Profissional": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "object"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "idProfissional": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "nome": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Dr. Ana"
+                  }
+                }
+              },
+              "cpf": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "123.456.789-00"
+                  }
+                }
+              },
+              "funcao": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Médico"
+                  }
+                }
+              },
+              "email": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "ana@example.com"
+                  }
+                }
+              },
+              "senha": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "senha123"
+                  }
+                }
+              },
+              "nivelAcesso": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "admin"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProfissionalCreate": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "Dr. Ana"
+          },
+          "cpf": {
+            "type": "string",
+            "example": "123.456.789-00"
+          },
+          "funcao": {
+            "type": "string",
+            "example": "Médico"
+          },
+          "email": {
+            "type": "string",
+            "example": "ana@example.com"
+          },
+          "senha": {
+            "type": "string",
+            "example": "senha123"
+          },
+          "nivelAcesso": {
+            "type": "string",
+            "example": "admin"
+          }
+        }
+      },
+      "Medicamento": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "object"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "idMedicamento": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "nomeMedicamento": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Paracetamol"
+                  }
+                }
+              },
+              "dosagem": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "500mg"
+                  }
+                }
+              },
+              "preco": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "number"
+                  },
+                  "format": {
+                    "type": "string",
+                    "example": "float"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 19.99
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "MedicamentoCreate": {
+        "type": "object",
+        "properties": {
+          "nomeMedicamento": {
+            "type": "string",
+            "example": "Paracetamol"
+          },
+          "dosagem": {
+            "type": "string",
+            "example": "500mg"
+          },
+          "preco": {
+            "type": "number",
+            "example": 19.99
+          }
+        }
+      },
+      "AlertaMedicamento": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "object"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "idMedicacaoResidente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "residenteNome": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Lucas Carlos"
+                  }
+                }
+              },
+              "medicamentoNome": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "DorFLex"
+                  }
+                }
+              },
+              "viaAdministracao": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Oral"
+                  }
+                }
+              },
+              "dosagem": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "500mg"
+                  }
+                }
+              },
+              "TempoDecorrido": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "array"
+                  },
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "dias": {
+                        "type": "number",
+                        "example": 10
+                      },
+                      "horas": {
+                        "type": "number",
+                        "example": 22
+                      },
+                      "minutos": {
+                        "type": "number",
+                        "example": 58
+                      },
+                      "segundos": {
+                        "type": "number",
+                        "example": 9
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "AlertasConsultas": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "object"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "idConsulta": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "residenteNome": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Lucas Carlos"
+                  }
+                }
+              },
+              "nomeMedico": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "DR. José"
+                  }
+                }
+              },
+              "tipoConsulta": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Padrão"
+                  }
+                }
+              },
+              "cobservacao": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Nada a declarar"
+                  }
+                }
+              },
+              "compareceu": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "não"
+                  }
+                }
+              },
+              "tempoProxiConsulta": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "array"
+                  },
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "dias": {
+                        "type": "number",
+                        "example": 6
+                      },
+                      "horas": {
+                        "type": "number",
+                        "example": 22
+                      },
+                      "minutos": {
+                        "type": "number",
+                        "example": 58
+                      },
+                      "segundos": {
+                        "type": "number",
+                        "example": 9
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Autenticacao": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "object"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "auth": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "boolean"
+                  },
+                  "example": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              },
+              "status": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 200
+                  }
+                }
+              },
+              "profissional": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "object"
+                  },
+                  "properties": {
+                    "type": "object",
+                    "properties": {
+                      "idProfissional": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "example": "integer"
+                          },
+                          "example": {
+                            "type": "number",
+                            "example": 1
+                          }
+                        }
+                      },
+                      "nome": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "example": "string"
+                          },
+                          "example": {
+                            "type": "string",
+                            "example": "1"
+                          }
+                        }
+                      },
+                      "cpf": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "example": "string"
+                          },
+                          "example": {
+                            "type": "string",
+                            "example": "2"
+                          }
+                        }
+                      },
+                      "funcao": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "example": "string"
+                          },
+                          "example": {
+                            "type": "string",
+                            "example": "3"
+                          }
+                        }
+                      },
+                      "email": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "example": "string"
+                          },
+                          "example": {
+                            "type": "string",
+                            "example": "novo"
+                          }
+                        }
+                      },
+                      "senha": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "example": "string"
+                          },
+                          "example": {
+                            "type": "string",
+                            "example": "$2b$10$PrdniTrjj3cRGgyfjHlKIez1VrqDIYPhnkXNNJFIIaSzWjIPzUfYS"
+                          }
+                        }
+                      },
+                      "nivelAcesso": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "example": "string"
+                          },
+                          "example": {
+                            "type": "string",
+                            "example": "1"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "success": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "boolean"
+                  },
+                  "example": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              },
+              "token": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tZSI6IjEiLCJuaXZlbEFjZXNzbyI6IjEiLCJpYXQiOjE3MTcwOTA1ODksImV4cCI6MTcxNzA5MjM4OX0.OhP7hJhmJwXR8rzzBuVAnl6gxF44AkQGRVNF7vA4wls"
+                  }
+                }
+              },
+              "message": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Login bem sucedido."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "AutenticacaoLogin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "profissional@gmail.com"
+          },
+          "senha": {
+            "type": "string",
+            "example": "senha123"
+          }
+        }
+      }
+    }
+  }
+}

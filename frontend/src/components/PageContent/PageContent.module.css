@@ -1,0 +1,15 @@
+.pageContentBody {
+  /* background: #c8d7db !important; */
+  padding: 24px 48px;
+}
+.pageContent {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  padding: 24px 0;
+  background-color: #fff;
+  border-radius: 16px;
+}

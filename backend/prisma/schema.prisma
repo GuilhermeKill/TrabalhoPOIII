@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+
+model Residente {
+  idResidente         Int                   @id @default(autoincrement())
+  nomeCompleto        String
+  dataNascimento      DateTime
+  documentoIdentificacao String
+  medicacaoPaciente   MedicacaoPaciente[]
+  consultas           Consulta[]
+}
+
+model Profissional {
+  idProfissional      Int                   @id @default(autoincrement())
+  nome                String
+  cpf                 String
+  funcao              String
+  email               String                @unique
+  senha               String
+  nivelAcesso         String
+  consultas           Consulta[]
+  medicacaoPaciente   MedicacaoPaciente[]
+}
+
+model Consulta {
+  idConsulta          Int                   @id @default(autoincrement())
+  dataHora            DateTime
+  tipoConsulta        String
+  nomeMedico          String
+  compareceu          String
+  observacao          String
+  residenteId         Int
+  profissionalId      Int
+
+  residente           Residente             @relation(fields: [residenteId], references: [idResidente])
+  profissional        Profissional          @relation(fields: [profissionalId], references: [idProfissional])
+}
+
+model Medicamento {
+  idMedicamento       Int                   @id @default(autoincrement())
+  nomeMedicamento     String
+  dosagem             String
+  preco               Float?
+  medicacaoPaciente   MedicacaoPaciente[]
+}
+
+model MedicacaoPaciente {
+  idMedicacaoPaciente Int                   @id @default(autoincrement())
+  idResidente         Int
+  idMedicamento       Int
+  idProfissional      Int
+  quantidadeTempoHoras Int
+  quantidadeTempoDias Int
+  viaAdministracao    String
+  dataHoraMinistrado  DateTime
+  dataMedicamentoInicio DateTime
+  observacao          String?
+
+  residente           Residente             @relation(fields: [idResidente], references: [idResidente])
+  medicamento         Medicamento           @relation(fields: [idMedicamento], references: [idMedicamento])
+  profissional        Profissional          @relation(fields: [idProfissional], references: [idProfissional])
+}
+
+
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}

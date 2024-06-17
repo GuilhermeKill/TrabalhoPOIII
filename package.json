@@ -1,0 +1,20 @@
+{
+  "name": "proj-integrador-iii",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "prepare": "husky install",
+    "dev": "turbo run dev --parallel",
+    "lint:frontend": "npm run --prefix ./frontend lint"
+  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "packageManager": "npm@10.2.4",
+  "devDependencies": {
+    "husky": "9.0.11",
+    "lint-staged": "15.2.2",
+    "turbo": "2.0.1"
+  }
+}
